@@ -1,0 +1,27 @@
+volumes:
+  db-data:
+
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
