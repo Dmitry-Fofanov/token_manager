@@ -240,7 +240,7 @@ func RefreshTokensHandler(db *sql.DB) http.HandlerFunc {
 
 		db.Exec(`
 			DELETE FROM refresh_tokens
-			WHERE token_hash = $1`,
+			WHERE token_id = $1`,
 			claims.TokenId,
 		)
 
