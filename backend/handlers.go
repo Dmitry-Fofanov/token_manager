@@ -232,7 +232,7 @@ func RefreshTokensHandler(db *sql.DB) http.HandlerFunc {
 			SendEmailToUser(
 				claims.UserId,
 				fmt.Sprintf(
-					"Проверка сервиса почты, IP-адрес:",
+					"Проверка сервиса почты, IP-адрес: %s",
 					ip,
 				),
 			)
